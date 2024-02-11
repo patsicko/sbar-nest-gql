@@ -13,23 +13,24 @@ export class UserResolver {
     return this.userService.create(createUserInput);
   }
 
-  @Query(() => [User], { name: 'allUsers' })
+  @Query(() => [User], { name: 'allUsers',nullable:true })
   findAll() {
     return this.userService.findAll();
   }
 
-  @Query(() => User, { name: 'user' })
+  @Query(() => User, { name: 'Getuser',nullable:true })
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.userService.findOne(id);
   }
 
   @Mutation(() => User)
-  updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput, @Args('id') id: number) {
+  updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput, @Args('id',{type:()=>Int}) id: number) {
     return this.userService.update(id, updateUserInput);
   }
 
-  @Mutation(() => User)
-  removeUser(@Args('id', { type: () => Int }) id: number) {
-    return this.userService.remove(id);
+  @Mutation(()=>User,{nullable:true})
+  async removeUser(@Args('id', { type: () => Int }) id: number) {
+    const removedUser= await  this.userService.remove(id);
+    return removedUser;
   }
 }

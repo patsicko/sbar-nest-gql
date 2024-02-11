@@ -10,9 +10,17 @@ export class User {
 
   @Column()
   @Field()
-  name:string
+  firstName:string
   
   @Column()
   @Field()
+  lastName:string
+
+  @Column()
+  @Field()
   email:string
+
+  @Column()
+  @Field()
+  password:string
 }

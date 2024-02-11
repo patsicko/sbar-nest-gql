@@ -29,14 +29,20 @@ export class UserService {
       throw new Error("User not found");
     }
    
-    user.name=updateUserInput.name || user.name
-
+    user.firstName=updateUserInput.firstName || user.firstName
+    user.lastName=updateUserInput.lastName || user.lastName
     user.email=updateUserInput.email || user.email
+    
 
     return await this.userRepository.save(user)
   }
 
-  async remove(id: number):Promise<any> {
-    return await this.userRepository.delete(id)
+  async remove(id: number):Promise<User | null> {
+    const userToRemove=await this.userRepository.findOne({where:{id}});
+    if(!userToRemove){
+      return null;
+    }
+    await this.userRepository.delete(userToRemove);
+    return userToRemove;
   }
 }
