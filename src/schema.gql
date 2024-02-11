@@ -2,6 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Hospital {
+  """Hospital Id"""
+  hospitalId: Int!
+  name: String!
+  district: String
+  city: String
+  users: User
+}
+
 type User {
   """Example field (placeholder)"""
   id: Int!
@@ -9,17 +18,23 @@ type User {
   lastName: String!
   email: String!
   password: String!
+  role: String!
+  hospital: Hospital
 }
 
 type Query {
   allUsers: [User!]
   Getuser(id: Int!): User
+  hospital(id: Int!): Hospital!
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!, id: Int!): User!
   removeUser(id: Int!): User
+  createHospital(createHospitalInput: CreateHospitalInput!): Hospital!
+  updateHospital(updateHospitalInput: UpdateHospitalInput!): Hospital!
+  removeHospital(id: Int!): Hospital!
 }
 
 input CreateUserInput {
@@ -34,4 +49,19 @@ input UpdateUserInput {
   lastName: String!
   email: String!
   password: String
+}
+
+input CreateHospitalInput {
+  """Hospital Id"""
+  hospitalId: Int!
+  hospitalName: String!
+  district: String!
+}
+
+input UpdateHospitalInput {
+  """Hospital Id"""
+  hospitalId: Int
+  hospitalName: String
+  district: String
+  id: Int!
 }

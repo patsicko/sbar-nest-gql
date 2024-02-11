@@ -7,6 +7,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
+import { HospitalModule } from './hospital/hospital.module';
+
 
 
 @Module({
@@ -28,7 +30,8 @@ import { User } from './user/entities/user.entity';
       driver:ApolloDriver,
       autoSchemaFile:join(process.cwd(),'src/schema.gql'),
     }),
-    UserModule
+    UserModule,
+    HospitalModule
   ],
  
   providers: [AppService],
