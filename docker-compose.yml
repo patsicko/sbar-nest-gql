@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: sbar
+    depends_on:
+      - db
+    restart: always
+    build:
+      context: .
+    volumes:
+      - ./src:/app/src
+      - ./node_modules:/app/node_modules 
+      - .:/app
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - JWT_SECRET=${JWT_SECRET}
+    ports:
+      - ${PORT}:${PORT}
+    
+  
+
+  db:
+    image: postgres:13-alpine
+    container_name: sbar-db
+    env_file: .env
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data: {}

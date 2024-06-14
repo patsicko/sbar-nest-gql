@@ -1,0 +1,243 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Hospital {
+  """Hospital Id"""
+  hospitalId: Int!
+  hospitalName: String!
+  district: String
+  sector: String
+  departments: [Department!]
+  staff: [User!]
+}
+
+type Sbar {
+  id: Int!
+  situation: String!
+  background: String!
+  assessment: String!
+  recommendation: String!
+  patient: Patient!
+  createdBy: User!
+  updatedBy: User
+}
+
+type Patient {
+  id: Int!
+  name: String!
+  unity: Unity!
+  department: Department!
+  sbars: [Sbar!]
+}
+
+type Department {
+  id: Int!
+  name: String!
+  hospital: Hospital!
+  patients: [Patient!]
+  unities: [Unity!]
+  staff: [User!]
+}
+
+type Unity {
+  id: Int!
+  name: String!
+  department: Department!
+  patients: [Patient!]
+  handovers: [Handover!]
+}
+
+type Handover {
+  id: Int!
+  unity: Unity!
+  fromStaff: User!
+  toStaff: User!
+  sbarsGiven: [Sbar!]
+}
+
+type User {
+  id: Int!
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+  role: String!
+  approved: Boolean!
+  hospital: Hospital
+  department: Department
+  handoversGiven: [Handover!]
+  handoversReceived: [Handover!]
+  sbarsCreated: [Sbar!]
+  sbarsUpdated: [Sbar!]
+}
+
+type LoginResponse {
+  accessToken: String!
+}
+
+type Profile {
+  id: Int!
+  bio: String!
+  user: User!
+}
+
+type Query {
+  allUsers: [User!]
+  GetuserById(id: Int!): User
+  AllHospitals: [Hospital!]!
+  hospital(id: Int!): Hospital!
+  profile(id: Int!): Profile!
+  department(id: Int!): Department!
+  unity(id: Int!): Unity!
+  patient(id: Int!): Patient!
+  sbar(id: Int!): Sbar!
+  handover(id: Int!): Handover!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  createSuperAdmin(createUserInput: CreateUserInput!): User!
+  approveUser(id: Int!): User!
+  addStaffToHospital(createStaffInput: CreateStaffInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!, id: Int!): User!
+  makeAdmin(id: Int!): User!
+  removeUser(id: Int!): User
+  login(loginInput: LoginInput!): LoginResponse!
+  createHospital(createHospitalInput: CreateHospitalWithAdminInput!): Hospital!
+  updateHospital(updateHospitalInput: UpdateHospitalInput!): Hospital!
+  removeHospital(id: Int!): Hospital!
+  createProfile(createProfileInput: CreateProfileInput!): Profile!
+  updateProfile(updateProfileInput: UpdateProfileInput!): Profile!
+  removeProfile(id: Int!): Profile!
+  createDepartment(createDepartmentInput: CreateDepartmentInput!): Department!
+  updateDepartment(updateDepartmentInput: UpdateDepartmentInput!): Department!
+  removeDepartment(id: Int!): Department!
+  createUnity(createUnityInput: CreateUnityInput!): Unity!
+  updateUnity(updateUnityInput: UpdateUnityInput!): Unity!
+  removeUnity(id: Int!): Unity!
+  createPatient(createPatientInput: CreatePatientInput!): Patient!
+  updatePatient(updatePatientInput: UpdatePatientInput!): Patient!
+  removePatient(id: Int!): Patient!
+  createSbar(createSbarInput: CreateSbarInput!): Sbar!
+  updateSbar(updateSbarInput: UpdateSbarInput!): Sbar!
+  removeSbar(id: Int!): Sbar!
+  createHandover(createHandoverInput: CreateHandoverInput!): Handover!
+  updateHandover(updateHandoverInput: UpdateHandoverInput!): Handover!
+  removeHandover(id: Int!): Handover!
+}
+
+input CreateUserInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+}
+
+input CreateStaffInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+  role: String!
+}
+
+input UpdateUserInput {
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  id: Int!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input CreateHospitalWithAdminInput {
+  hospitalName: String!
+  district: String!
+  sector: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+}
+
+input UpdateHospitalInput {
+  hospitalName: String
+  district: String
+  sector: String
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  id: Int!
+}
+
+input CreateProfileInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateProfileInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateDepartmentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateDepartmentInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateUnityInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateUnityInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreatePatientInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdatePatientInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateSbarInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateSbarInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateHandoverInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateHandoverInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
