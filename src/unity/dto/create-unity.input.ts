@@ -1,7 +1,11 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+// create-unity.input.ts
+import { InputType, Field, Int } from '@nestjs/graphql';
 
 @InputType()
 export class CreateUnityInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field()
+  name: string;
+
+  @Field(() => Int)
+  departmentId: number;
 }

@@ -88,11 +88,16 @@ type Query {
   AllHospitals: [Hospital!]!
   hospital(id: Int!): Hospital!
   profile(id: Int!): Profile!
-  department(id: Int!): Department!
-  unity(id: Int!): Unity!
-  patient(id: Int!): Patient!
-  sbar(id: Int!): Sbar!
-  handover(id: Int!): Handover!
+  getDepartments: [Department!]!
+  getSingleDepartment(id: Int!): Department!
+  getUnities: [Unity!]!
+  getUnity(id: Int!): Unity!
+  getPatients: [Patient!]!
+  getPatient(id: Int!): Patient!
+  getSbars: [Sbar!]!
+  getSbar(id: Int!): Sbar!
+  getHandovers: [Handover!]!
+  getHandover(id: Int!): Handover!
 }
 
 type Mutation {
@@ -188,56 +193,71 @@ input UpdateProfileInput {
 }
 
 input CreateDepartmentInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
 }
 
 input UpdateDepartmentInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  name: String
   id: Int!
 }
 
 input CreateUnityInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
+  departmentId: Int!
 }
 
 input UpdateUnityInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  name: String
+  departmentId: Int
   id: Int!
 }
 
 input CreatePatientInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
+  unityId: Int!
 }
 
 input UpdatePatientInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  name: String
+  unityId: Int
   id: Int!
 }
 
 input CreateSbarInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  situation: String!
+  background: String!
+  assessment: String!
+  recommendation: String!
+  patientId: Int!
+  createdById: Int!
 }
 
 input UpdateSbarInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  situation: String
+  background: String
+  assessment: String
+  recommendation: String
+  patientId: Int
+  createdById: Int
   id: Int!
+  updatedById: Int
 }
 
 input CreateHandoverInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  unityId: Int!
+  fromStaffId: Int!
+  toStaffId: Int!
+  sbarIds: [Int!]
+  handoverDetails: String!
+  receiptSignature: Boolean
 }
 
 input UpdateHandoverInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  unityId: Int
+  fromStaffId: Int
+  toStaffId: Int
+  sbarIds: [Int!]
+  handoverDetails: String
+  receiptSignature: Boolean
   id: Int!
 }

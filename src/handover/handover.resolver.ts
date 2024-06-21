@@ -13,12 +13,12 @@ export class HandoverResolver {
     return this.handoverService.create(createHandoverInput);
   }
 
-  @Query(() => [Handover], { name: 'handover' })
+  @Query(() => [Handover], { name: 'getHandovers' })
   findAll() {
     return this.handoverService.findAll();
   }
 
-  @Query(() => Handover, { name: 'handover' })
+  @Query(() => Handover, { name: 'getHandover' })
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.handoverService.findOne(id);
   }

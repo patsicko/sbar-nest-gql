@@ -3,22 +3,33 @@ import { UnityService } from './unity.service';
 import { Unity } from './entities/unity.entity';
 import { CreateUnityInput } from './dto/create-unity.input';
 import { UpdateUnityInput } from './dto/update-unity.input';
+import { UseGuards } from '@nestjs/common';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { User } from 'src/user/entities/user.entity';
 
 @Resolver(() => Unity)
 export class UnityResolver {
   constructor(private readonly unityService: UnityService) {}
 
   @Mutation(() => Unity)
-  createUnity(@Args('createUnityInput') createUnityInput: CreateUnityInput) {
-    return this.unityService.create(createUnityInput);
+  @UseGuards(JwtAuthGuard)
+  createUnity(
+    @Args('createUnityInput') createUnityInput: CreateUnityInput,
+    @CurrentUser() user: User
+  ) {
+    if (user.role !== 'admin') {
+      throw new Error('Only admin can create unities');
+    }
+    return this.unityService.create(createUnityInput, user.id);
   }
 
-  @Query(() => [Unity], { name: 'unity' })
+  @Query(() => [Unity], { name: 'getUnities' })
   findAll() {
     return this.unityService.findAll();
   }
 
-  @Query(() => Unity, { name: 'unity' })
+  @Query(() => Unity, { name: 'getUnity' })
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.unityService.findOne(id);
   }

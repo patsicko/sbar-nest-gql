@@ -1,7 +1,8 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+// create-department.input.ts
+import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
 export class CreateDepartmentInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field()
+  name: string;
 }
