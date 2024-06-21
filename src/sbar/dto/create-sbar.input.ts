@@ -17,7 +17,4 @@ export class CreateSbarInput {
 
   @Field(() => Int)
   patientId: number;
-
-  @Field(() => Int)
-  createdById: number;
 }

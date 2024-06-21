@@ -121,6 +121,7 @@ type Mutation {
   createUnity(createUnityInput: CreateUnityInput!): Unity!
   updateUnity(updateUnityInput: UpdateUnityInput!): Unity!
   removeUnity(id: Int!): Unity!
+  transferPatient(transferPatientInput: TransferPatientInput!): Patient!
   createPatient(createPatientInput: CreatePatientInput!): Patient!
   updatePatient(updatePatientInput: UpdatePatientInput!): Patient!
   removePatient(id: Int!): Patient!
@@ -212,6 +213,12 @@ input UpdateUnityInput {
   id: Int!
 }
 
+input TransferPatientInput {
+  patientId: Int!
+  currentUnityId: Int!
+  targetUnityId: Int!
+}
+
 input CreatePatientInput {
   name: String!
   unityId: Int!
@@ -229,7 +236,6 @@ input CreateSbarInput {
   assessment: String!
   recommendation: String!
   patientId: Int!
-  createdById: Int!
 }
 
 input UpdateSbarInput {
@@ -238,7 +244,6 @@ input UpdateSbarInput {
   assessment: String
   recommendation: String
   patientId: Int
-  createdById: Int
   id: Int!
   updatedById: Int
 }

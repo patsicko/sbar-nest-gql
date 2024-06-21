@@ -15,7 +15,7 @@ import { AuthResolver } from './auth.resolver';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: '60m' },
+        signOptions: { expiresIn: '8d' },
       }),
     }),
     forwardRef(() => UserModule),

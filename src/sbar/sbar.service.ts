@@ -23,7 +23,7 @@ export class SbarService {
 
     const createdBy = await this.userRepository.findOne({ where: { id: currentUser.id } });
     if (!createdBy) {
-      throw new NotFoundException(`User with ID ${createSbarInput.createdById} not found`);
+      throw new NotFoundException(`User with ID ${currentUser.id} not found`);
     }
 
     const sbar = this.sbarRepository.create({

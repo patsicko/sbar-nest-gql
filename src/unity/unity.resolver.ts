@@ -7,6 +7,8 @@ import { UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { User } from 'src/user/entities/user.entity';
+import { Patient } from 'src/patient/entities/patient.entity';
+import { TransferPatientInput } from './dto/transfer-patient.input';
 
 @Resolver(() => Unity)
 export class UnityResolver {
@@ -42,5 +44,14 @@ export class UnityResolver {
   @Mutation(() => Unity)
   removeUnity(@Args('id', { type: () => Int }) id: number) {
     return this.unityService.remove(id);
+  }
+
+  @Mutation(() => Patient)
+  @UseGuards(JwtAuthGuard)
+  async transferPatient(
+    @Args('transferPatientInput') transferPatientInput: TransferPatientInput,
+    @CurrentUser() user: User
+  ): Promise<Patient> {
+    return await this.unityService.transferPatient(transferPatientInput, user.id);
   }
 }
