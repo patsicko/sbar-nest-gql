@@ -25,7 +25,8 @@ type Sbar {
 
 type Patient {
   id: Int!
-  name: String!
+  firstName: String!
+  lastName: String!
   unity: Unity!
   department: Department!
   sbars: [Sbar!]
@@ -220,12 +221,14 @@ input TransferPatientInput {
 }
 
 input CreatePatientInput {
-  name: String!
+  firstName: String!
+  lastName: String!
   unityId: Int!
 }
 
 input UpdatePatientInput {
-  name: String
+  firstName: String
+  lastName: String
   unityId: Int
   id: Int!
 }

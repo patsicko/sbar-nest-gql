@@ -1,4 +1,4 @@
-// dto/create-hospital-with-admin.input.ts
+
 import { InputType, Field } from '@nestjs/graphql';
 import { IsEmail, IsNotEmpty } from 'class-validator';
 

@@ -8,7 +8,6 @@ export class CreateUserInput {
   @IsNotEmpty()
   firstName:string
   
-
   @Field()
   @IsNotEmpty()
   lastName:string
@@ -16,7 +15,6 @@ export class CreateUserInput {
   @Field()
   @IsNotEmpty()
   email:string
-
 
   @Field()
   @IsNotEmpty()

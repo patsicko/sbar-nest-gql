@@ -15,7 +15,11 @@ export class Patient {
 
   @Column()
   @Field()
-  name: string;
+  firstName: string;
+
+  @Column()
+  @Field()
+  lastName: string;
 
   @ManyToOne(() => Unity, unity => unity.patients)
   @Field(() => Unity)

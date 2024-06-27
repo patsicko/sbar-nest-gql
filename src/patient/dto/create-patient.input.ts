@@ -4,7 +4,10 @@ import { InputType, Field, Int } from '@nestjs/graphql';
 @InputType()
 export class CreatePatientInput {
   @Field()
-  name: string;
+  firstName: string;
+
+  @Field()
+  lastName: string;
 
   @Field(() => Int)
   unityId: number;
