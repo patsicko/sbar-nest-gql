@@ -11,18 +11,6 @@ import { CreateStaffInput } from './dto/create-staff.input';
 export class UserService {
   constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {}
 
-  async createSuperAdmin(createUserInput: CreateUserInput): Promise<User> {
-    const hashedPassword = await this.hashPassword(createUserInput.password);
-    const superAdmin = this.userRepository.create({
-      ...createUserInput,
-      password: hashedPassword,
-      role: 'superAdmin',
-      approved: true,
-    });
-
-    return await this.userRepository.save(superAdmin);
-  }
-
   async create(createUserInput: CreateUserInput): Promise<User> {
     const hashedPassword = await this.hashPassword(createUserInput.password);
     const user = this.userRepository.create({

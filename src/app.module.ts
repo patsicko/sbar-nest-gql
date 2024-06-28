@@ -17,6 +17,8 @@ import { AuthModule } from './auth/auth.module';
 
 import 'dotenv/config';
 import { ConfigModule } from '@nestjs/config';
+import { CreateSuperAdminService } from './auth/createSuperAdmin';
+import { User } from './user/entities/user.entity';
 
 const TypeOrmConfig:any = {
   type: 'postgres',
@@ -36,6 +38,7 @@ const TypeOrmConfig:any = {
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      context: ({ req, res }) => ({ req, res }),
     }),
     ConfigModule.forRoot({
       isGlobal:true,
@@ -49,8 +52,10 @@ const TypeOrmConfig:any = {
     SbarModule,
     HandoverModule,
     AuthModule,
+    TypeOrmModule.forFeature([User])
   ],
+  
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,CreateSuperAdminService],
 })
 export class AppModule {}

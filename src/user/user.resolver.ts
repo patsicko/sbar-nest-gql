@@ -17,10 +17,6 @@ export class UserResolver {
     return this.userService.create(createUserInput);
   }
 
-  @Mutation(() => User)
-  createSuperAdmin(@Args('createUserInput') createUserInput: CreateUserInput) {
-    return this.userService.createSuperAdmin(createUserInput);
-  }
 
   @Mutation(() => User)
   async approveUser(@Args('id', { type: () => Int }) id: number) {
