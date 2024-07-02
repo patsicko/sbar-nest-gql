@@ -1,7 +1,7 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Patient } from 'src/patient/entities/patient.entity';
 import { User } from 'src/user/entities/user.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 @ObjectType()
@@ -37,4 +37,8 @@ export class Sbar {
   @ManyToOne(() => User, user => user.sbarsUpdated, { nullable: true })
   @Field(() => User, { nullable: true })
   updatedBy?: User;
+
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Field(() => String)
+  createdAt: String;
 }

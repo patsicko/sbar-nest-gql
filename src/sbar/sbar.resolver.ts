@@ -23,6 +23,18 @@ export class SbarResolver {
     return this.sbarService.findAll();
   }
 
+  @Query(() => [Sbar], { name: 'findSbarsByPatient' })
+ async findSbarsByPatient(@Args('patientId',{type:()=>Int}) patientId:number) {
+    const sbars = await this.sbarService.findSbarsByPatient(patientId);
+
+    // Format createdAt field for each SBAR entry
+    sbars.forEach(sbar => {
+      sbar.createdAt = sbar.createdAt.toLocaleString() ; // Example formatting, adjust as per your needs
+    });
+
+    return sbars;
+  }
+
   @Query(() => Sbar, { name: 'getSbar' })
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.sbarService.findOne(id);

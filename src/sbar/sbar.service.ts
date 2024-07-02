@@ -42,6 +42,15 @@ export class SbarService {
     return this.sbarRepository.find({ relations: ['patient', 'createdBy', 'updatedBy'] });
   }
 
+  async findSbarsByPatient(patientId: number): Promise<Sbar[]> {
+    const patient = await this.patientRepository.findOne({where:{id:patientId}});
+    if (!patient) {
+      throw new NotFoundException(`Patient with ID ${patientId} not found`);
+    }
+
+    return this.sbarRepository.find({ where: { patient }, relations: ['createdBy', 'updatedBy'] });
+  }
+
   async findOne(id: number): Promise<Sbar> {
     const sbar = await this.sbarRepository.findOne({ where: { id }, relations: ['patient', 'createdBy', 'updatedBy'] });
     if (!sbar) {

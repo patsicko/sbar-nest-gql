@@ -30,6 +30,11 @@ export class PatientResolver {
     return this.patientService.findAll();
   }
 
+  @Query(() => [Patient], { name: 'findPatientsByUnity' })
+  findPatientsByUnity(@Args('unitId', { type: () => Int }) unitId: number) {
+    return this.patientService.findPatientsByUnity(unitId);
+  }
+
   @Query(() => Patient, { name: 'getPatient' })
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.patientService.findOne(id);

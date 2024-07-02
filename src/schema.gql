@@ -21,6 +21,7 @@ type Sbar {
   patient: Patient!
   createdBy: User!
   updatedBy: User
+  createdAt: String!
 }
 
 type Patient {
@@ -94,8 +95,10 @@ type Query {
   getUnities(departmentId: Int!): [Unity!]!
   getUnity(id: Int!): Unity!
   getPatients: [Patient!]!
+  findPatientsByUnity(unitId: Int!): [Patient!]!
   getPatient(id: Int!): Patient!
   getSbars: [Sbar!]!
+  findSbarsByPatient(patientId: Int!): [Sbar!]!
   getSbar(id: Int!): Sbar!
   getHandovers: [Handover!]!
   getHandover(id: Int!): Handover!

@@ -47,6 +47,20 @@ export class PatientService {
     return patient;
   }
 
+  async findPatientsByUnity(unitId: number): Promise<Patient[]> {
+    // Find unity from repository
+    const unity = await this.unityRepository.findOne({where:{id:unitId}, relations: ['patients'] });
+
+    if (!unity) {
+      throw new NotFoundException(`Unity with ID ${unitId} not found`);
+    }
+
+    // Query patients associated with the found unity
+    const patients = await this.patientRepository.find({ where: { unity }, relations: ['unity', 'department', 'sbars'] });
+
+    return patients;
+  }
+
   async update(id: number, updatePatientInput: UpdatePatientInput): Promise<Patient> {
     const patient = await this.findOne(id);
 
