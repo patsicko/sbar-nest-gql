@@ -23,9 +23,12 @@ export class DepartmentResolver {
     }
     return this.departmentService.create(createDepartmentInput, user.id);
   }
+
+
   @Query(() => [Department], { name: 'getDepartments' })
-  findAll() {
-    return this.departmentService.findAll();
+  @UseGuards(JwtAuthGuard)
+  findAll(@CurrentUser() user: User) {
+    return this.departmentService.findAll(user.id);
   }
 
   @Query(() => Department, { name: 'getSingleDepartment' })

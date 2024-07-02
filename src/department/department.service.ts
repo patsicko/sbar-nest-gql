@@ -39,8 +39,18 @@ export class DepartmentService {
     return await this.departmentRepository.save(department);
   }
 
-  async findAll(): Promise<Department[]> {
-    return this.departmentRepository.find({ relations: ['hospital', 'unities', 'staff', 'patients'] });
+  async findAll(userId: number): Promise<Department[]> {
+
+    const user = await this.userRepository.findOne({ where: { id: userId }, relations: ['hospital'] });
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    if (!user.hospital) {
+      throw new Error('User does not belong to any hospital');
+    }
+
+    return this.departmentRepository.find({where:{hospital: user.hospital}, relations: ['hospital', 'unities', 'staff', 'patients'] });
   }
 
   async findOne(id: number): Promise<Department> {

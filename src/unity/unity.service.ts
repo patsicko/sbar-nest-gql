@@ -52,8 +52,18 @@ export class UnityService {
     return await this.unityRepository.save(unity);
   }
 
-  async findAll(): Promise<Unity[]> {
-    return this.unityRepository.find({ relations: ['department', 'patients', 'handovers'] });
+ 
+  async findAll(departmentId: number): Promise<Unity[]> {
+    const query = this.unityRepository.createQueryBuilder('unity')
+      .leftJoinAndSelect('unity.department', 'department')
+      .leftJoinAndSelect('unity.patients', 'patients')
+      .leftJoinAndSelect('unity.handovers', 'handovers');
+
+    if (departmentId) {
+      query.where('unity.departmentId = :departmentId', { departmentId });
+    }
+
+    return await query.getMany();
   }
 
   async findOne(id: number): Promise<Unity> {

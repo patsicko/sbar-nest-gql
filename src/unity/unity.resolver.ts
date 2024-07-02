@@ -27,8 +27,8 @@ export class UnityResolver {
   }
 
   @Query(() => [Unity], { name: 'getUnities' })
-  findAll() {
-    return this.unityService.findAll();
+  findAll(@Args('departmentId', { type: () => Int }) departmentId: number) {
+    return this.unityService.findAll(departmentId);
   }
 
   @Query(() => Unity, { name: 'getUnity' })

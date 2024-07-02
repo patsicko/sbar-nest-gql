@@ -91,7 +91,7 @@ type Query {
   profile(id: Int!): Profile!
   getDepartments: [Department!]!
   getSingleDepartment(id: Int!): Department!
-  getUnities: [Unity!]!
+  getUnities(departmentId: Int!): [Unity!]!
   getUnity(id: Int!): Unity!
   getPatients: [Patient!]!
   getPatient(id: Int!): Patient!
