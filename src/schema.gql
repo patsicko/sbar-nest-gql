@@ -95,7 +95,7 @@ type Query {
   getUnities(departmentId: Int!): [Unity!]!
   getUnity(id: Int!): Unity!
   getPatients: [Patient!]!
-  findPatientsByUnity(unitId: Int!): [Patient!]!
+  findPatientsByUnity(unityId: Int!): [Patient!]!
   getPatient(id: Int!): Patient!
   getSbars: [Sbar!]!
   findSbarsByPatient(patientId: Int!): [Sbar!]!

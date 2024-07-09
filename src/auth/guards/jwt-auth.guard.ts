@@ -13,6 +13,8 @@ export class JwtAuthGuard {
    
     const authHeader = req.headers?.authorization; 
 
+   console.log("auth header",authHeader)
+
     if (!authHeader) {
       throw new UnauthorizedException('Unauthorized');
     }
