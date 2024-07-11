@@ -23,4 +23,7 @@ export class CreateStaffInput {
 
   @Field()
   role: string;
+
+  @Field()
+  hospitalId:number
 }

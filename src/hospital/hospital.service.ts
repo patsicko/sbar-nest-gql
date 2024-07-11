@@ -42,7 +42,7 @@ export class HospitalService {
     newUser.email = email;
     newUser.password = hashedPassword;
     newUser.role = 'admin';
-    newUser.approved = false; 
+    newUser.approved = true; 
     const savedHospital = await this.hospitalRepository.save(newHospital);
 
     newUser.hospital = savedHospital;

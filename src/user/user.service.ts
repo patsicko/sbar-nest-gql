@@ -6,10 +6,14 @@ import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './entities/user.entity';
 import { CreateStaffInput } from './dto/create-staff.input';
+import { Hospital } from 'src/hospital/entities/hospital.entity';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {}
+  constructor(
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(Hospital) private readonly hospitalRepository:Repository<Hospital>
+  ) {}
 
   async create(createUserInput: CreateUserInput): Promise<User> {
     const hashedPassword = await this.hashPassword(createUserInput.password);
@@ -22,30 +26,38 @@ export class UserService {
   }
 
 
-  async createStaff(createStaffInput: CreateStaffInput, adminId: number): Promise<User | any> {
-    const admin = await this.userRepository.findOne({ where: { id: adminId }, relations: ['hospital'] });
+  async createStaff(createStaffInput: CreateStaffInput): Promise<User | any> {
+    try {
+       
+        const existingStaff = await this.userRepository.findOne({ where: { email: createStaffInput.email } });
+        if (existingStaff) {
+            throw new Error(`Staff with email '${createStaffInput.email}' already exists`);
+        }
 
-    if (!admin) {
-      throw new Error('Admin not found');
+
+        const hospital = await this.hospitalRepository.findOne({ where: { hospitalId: createStaffInput.hospitalId } });
+        if (!hospital) {
+            throw new Error(`Hospital with ID '${createStaffInput.hospitalId}' not found`);
+        }
+
+      
+        const hashedPassword = await this.hashPassword(createStaffInput.password);
+
+  
+        const staff = this.userRepository.create({
+            ...createStaffInput,
+            password: hashedPassword,
+            hospital: hospital,
+        });
+
+     
+        return await this.userRepository.save(staff);
+    } catch (error) {
+    
+        return error; 
     }
+}
 
-    if (!admin.hospital) {
-      throw new Error('Admin does not belong to any hospital');
-    }
-    const existingStaff = await this.userRepository.findOne({ where: { email:createStaffInput.email } });
-    if(existingStaff){
-      return new Error('Staff with email: '+createStaffInput.email+' already exist')
-    }
-    const hashedPassword = await this.hashPassword(createStaffInput.password);
-
-    const staff = this.userRepository.create({
-      ...createStaffInput,
-      password: hashedPassword,
-      hospital: admin.hospital,
-    });
-
-    return await this.userRepository.save(staff);
-  }
 
   async approveUser(id: number): Promise<User> {
     const user = await this.userRepository.findOne({ where: { id } });

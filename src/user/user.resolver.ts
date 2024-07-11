@@ -25,15 +25,12 @@ export class UserResolver {
 
   @Mutation(() => User)
   @UseGuards(JwtAuthGuard)
-  async addStaffToHospital(
+  async createStaff(
     @Args('createStaffInput') createStaffInput: CreateStaffInput,
-    @CurrentUser() user: User
+   
   ): Promise<User> {
-    if(user.role!='admin'){
-      throw new Error('Only admin can add staff')
-    }
-    const adminId = user.id; 
-    return this.userService.createStaff(createStaffInput, adminId);
+  
+    return this.userService.createStaff(createStaffInput);
   }
 
   @Query(() => [User], { name: 'allUsers', nullable: true })

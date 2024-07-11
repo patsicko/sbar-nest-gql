@@ -107,7 +107,7 @@ type Query {
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   approveUser(id: Int!): User!
-  addStaffToHospital(createStaffInput: CreateStaffInput!): User!
+  createStaff(createStaffInput: CreateStaffInput!): User!
   updateUser(updateUserInput: UpdateUserInput!, id: Int!): User!
   makeAdmin(id: Int!): User!
   removeUser(id: Int!): User
@@ -149,6 +149,7 @@ input CreateStaffInput {
   email: String!
   password: String!
   role: String!
+  hospitalId: Float!
 }
 
 input UpdateUserInput {
