@@ -27,6 +27,12 @@ export class AuthService {
       console.log(`User with email ${email} not found`)
       throw new UnauthorizedException('Invalid credentials');
     }
+
+    if(user.role==='admin' && !user.approved){
+      throw new UnauthorizedException('You need system admin approval to login');
+    }else if(user.role!=='admin' && !user.approved){
+      throw new UnauthorizedException('You need your hospital admin approval to login');
+    }
   console.log("user got",user)
     return user;
   }

@@ -24,7 +24,6 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
-  @UseGuards(JwtAuthGuard)
   async createStaff(
     @Args('createStaffInput') createStaffInput: CreateStaffInput,
    
