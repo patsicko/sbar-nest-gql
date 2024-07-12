@@ -2,6 +2,7 @@ import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Department } from 'src/department/entities/department.entity';
 import { Handover } from 'src/handover/entities/handover.entity';
 import { Patient } from 'src/patient/entities/patient.entity';
+import { User } from 'src/user/entities/user.entity';
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -18,6 +19,10 @@ export class Unity {
   @ManyToOne(() => Department, department => department.unities)
   @Field(() => Department)
   department: Department;
+
+  @OneToMany(() => User, user => user.unity)
+  @Field(() => User,{nullable:true})
+  staff: User[];
 
   @OneToMany(() => Patient, patient => patient.unity)
   @Field(() => [Patient], { nullable: true })

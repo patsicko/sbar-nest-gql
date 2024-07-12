@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
@@ -7,12 +7,17 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './entities/user.entity';
 import { CreateStaffInput } from './dto/create-staff.input';
 import { Hospital } from 'src/hospital/entities/hospital.entity';
+import { AssignDepartmentInput } from './dto/assignDepartment.input';
+import { Department } from 'src/department/entities/department.entity';
+import { Unity } from 'src/unity/entities/unity.entity';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
-    @InjectRepository(Hospital) private readonly hospitalRepository:Repository<Hospital>
+    @InjectRepository(Hospital) private readonly hospitalRepository:Repository<Hospital>,
+    @InjectRepository(Department) private readonly departmentRepository: Repository<Department>,
+    @InjectRepository(Unity) private readonly unitRepository: Repository<Unity>,
   ) {}
 
   async create(createUserInput: CreateUserInput): Promise<User> {
@@ -74,7 +79,7 @@ export class UserService {
     if (currentUser.role === 'superAdmin') {
       return this.userRepository.find({ relations: ['hospital'] });
     } else{
-      return this.userRepository.find({ where: { hospital: currentUser.hospital }, relations: ['hospital'] });
+      return this.userRepository.find({ where: { hospital: currentUser.hospital }, relations: ['hospital','department','unity'] });
     }
   }
   async findOne(id: number, relations: string[] = []): Promise<User> {
@@ -124,4 +129,35 @@ export class UserService {
     const salt = await bcrypt.genSalt(10);
     return bcrypt.hash(password, salt);
   }
+
+
+  async assignDepartment(assignDepartmentInput: AssignDepartmentInput): Promise<User> {
+    const { userId, departmentId, unityId } = assignDepartmentInput;
+ console.log("assignInput",assignDepartmentInput)
+    // Check if staff exists
+    const staff = await this.userRepository.findOne({ where: { id: userId } });
+    if (!staff) {
+      throw new NotFoundException(`Staff with ID '${userId}' not found`);
+    }
+
+    // Check if department exists
+    const department = await this.departmentRepository.findOne({ where: { id: departmentId } });
+    if (!department) {
+      throw new NotFoundException(`Department with ID '${departmentId}' not found`);
+    }
+
+    // Check if unit exists in the department
+    const unity = await this.unitRepository.findOne({ where: { id: unityId, department: { id: departmentId } } });
+    if (!unity) {
+      throw new NotFoundException(`Unit with ID '${unityId}' not found in the department`);
+    }
+
+    // Assign the department and unit to the staff
+    staff.department = department;
+    staff.unity = unity;
+
+    // Save the updated staff entity
+    return await this.userRepository.save(staff);
+  }
+
 }

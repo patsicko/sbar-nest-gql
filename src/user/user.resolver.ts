@@ -7,6 +7,7 @@ import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { CreateStaffInput } from './dto/create-staff.input';
+import { AssignDepartmentInput } from './dto/assignDepartment.input';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -60,5 +61,13 @@ export class UserResolver {
   async removeUser(@Args('id', { type: () => Int }) id: number) {
     const removedUser= await  this.userService.remove(id);
     return removedUser;
+  }
+
+
+  @Mutation(() => User)
+  async assignDepartment(
+    @Args('assignDepartmentInput',) assignDepartmentInput: AssignDepartmentInput,
+  ): Promise<User> {
+    return this.userService.assignDepartment(assignDepartmentInput);
   }
 }

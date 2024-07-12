@@ -7,6 +7,7 @@ import { Sbar } from 'src/sbar/entities/sbar.entity';
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Department } from 'src/department/entities/department.entity'; 
 import { IsEmail, IsNotEmpty } from 'class-validator';
+import { Unity } from 'src/unity/entities/unity.entity';
 
 @Entity()
 @ObjectType()
@@ -54,13 +55,17 @@ export class User {
   @Field(() => Department, { nullable: true })
   department?: Department; 
 
+  @ManyToOne(() => Unity, unity => unity.staff)
+  @Field(() => Unity, { nullable: true })
+  unity?: Unity;
+
   @OneToMany(() => Handover, handover => handover.fromStaff)
   @Field(()=>[Handover],{nullable:true})
-  handoversGiven: Handover[];
+  handoversGiven?: Handover[];
 
   @OneToMany(() => Handover, handover => handover.toStaff)
   @Field(()=>[Handover],{nullable:true})
-  handoversReceived: Handover[];
+  handoversReceived?: Handover[];
 
   @OneToMany(() => Sbar, sbar => sbar.createdBy)
   @Field(() => [Sbar], { nullable: true }) 

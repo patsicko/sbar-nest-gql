@@ -46,6 +46,7 @@ type Unity {
   id: Int!
   name: String!
   department: Department!
+  staff: User
   patients: [Patient!]
   handovers: [Handover!]
 }
@@ -68,6 +69,7 @@ type User {
   approved: Boolean!
   hospital: Hospital
   department: Department
+  unity: Unity
   handoversGiven: [Handover!]
   handoversReceived: [Handover!]
   sbarsCreated: [Sbar!]
@@ -111,6 +113,7 @@ type Mutation {
   updateUser(updateUserInput: UpdateUserInput!, id: Int!): User!
   makeAdmin(id: Int!): User!
   removeUser(id: Int!): User
+  assignDepartment(assignDepartmentInput: AssignDepartmentInput!): User!
   login(loginInput: LoginInput!): LoginResponse!
   createHospital(createHospitalInput: CreateHospitalWithAdminInput!): Hospital!
   updateHospital(updateHospitalInput: UpdateHospitalInput!): Hospital!
@@ -158,6 +161,12 @@ input UpdateUserInput {
   email: String
   password: String
   id: Int!
+}
+
+input AssignDepartmentInput {
+  userId: Int!
+  departmentId: Int!
+  unityId: Int!
 }
 
 input LoginInput {
