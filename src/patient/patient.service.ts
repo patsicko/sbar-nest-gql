@@ -69,6 +69,13 @@ export class PatientService {
     return this.patientRepository.save(patient);
   }
 
+
+  async archivePatient(id:number):Promise<Patient>{
+    const patient = await this.findOne(id);
+    patient.isActive=false
+    return this.patientRepository.save(patient);
+  }
+
   async remove(id: number): Promise<Patient> {
     const patient = await this.findOne(id);
     await this.patientRepository.remove(patient);

@@ -46,6 +46,11 @@ export class PatientResolver {
   }
 
   @Mutation(() => Patient)
+  archivePatient(@Args('patientId', {type:()=>Int}) patientId: number) {
+    return this.patientService.archivePatient(patientId);
+  }
+
+  @Mutation(() => Patient)
   removePatient(@Args('id', { type: () => Int }) id: number) {
     return this.patientService.remove(id);
   }
