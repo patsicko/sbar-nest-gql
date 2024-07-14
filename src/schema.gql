@@ -31,6 +31,7 @@ type Patient {
   unity: Unity!
   department: Department!
   sbars: [Sbar!]
+  isActive: Boolean!
 }
 
 type Department {

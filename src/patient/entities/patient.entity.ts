@@ -32,4 +32,8 @@ export class Patient {
   @OneToMany(() => Sbar, sbar => sbar.patient)
   @Field(() => [Sbar], { nullable: true })
   sbars?: Sbar[];
+
+  @Column({default:true})
+  @Field()
+  isActive:boolean
 }
