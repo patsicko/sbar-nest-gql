@@ -44,6 +44,8 @@ export class AuthService {
       firstName: user.firstName,
       lastName: user.lastName,
       role: user.role,
+      hospital:user.hospital?.hospitalName || '',
+      hospitalId:user.hospital?.hospitalId || '',
       approved:user.approved
       
     };

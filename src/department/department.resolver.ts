@@ -16,14 +16,13 @@ export class DepartmentResolver {
   @UseGuards(JwtAuthGuard)
   createDepartment(
     @Args('createDepartmentInput') createDepartmentInput: CreateDepartmentInput,
-    @CurrentUser() user: User
+    @CurrentUser() user: User,
   ) {
     if (user.role !== 'admin') {
       throw new Error('Only admin can create departments');
     }
     return this.departmentService.create(createDepartmentInput, user.id);
   }
-
 
   @Query(() => [Department], { name: 'getDepartments' })
   @UseGuards(JwtAuthGuard)
@@ -37,8 +36,13 @@ export class DepartmentResolver {
   }
 
   @Mutation(() => Department)
-  updateDepartment(@Args('updateDepartmentInput') updateDepartmentInput: UpdateDepartmentInput) {
-    return this.departmentService.update(updateDepartmentInput.id, updateDepartmentInput);
+  updateDepartment(
+    @Args('updateDepartmentInput') updateDepartmentInput: UpdateDepartmentInput,
+  ) {
+    return this.departmentService.update(
+      updateDepartmentInput.id,
+      updateDepartmentInput,
+    );
   }
 
   @Mutation(() => Department)
