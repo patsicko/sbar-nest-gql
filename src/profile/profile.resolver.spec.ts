@@ -1,19 +1,19 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { ProfileResolver } from './profile.resolver';
-import { ProfileService } from './profile.service';
+import { Test, TestingModule } from "@nestjs/testing";
+import { ProfileResolver } from "./profile.resolver";
+import { ProfileService } from "./profile.service";
 
-describe('ProfileResolver', () => {
+describe("ProfileResolver", () => {
   let resolver: ProfileResolver;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ProfileResolver, ProfileService],
+      providers: [ProfileResolver, ProfileService]
     }).compile();
 
     resolver = module.get<ProfileResolver>(ProfileResolver);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(resolver).toBeDefined();
   });
 });

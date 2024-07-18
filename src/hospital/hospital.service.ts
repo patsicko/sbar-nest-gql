@@ -1,32 +1,47 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import * as bcrypt from 'bcryptjs';
-import { Hospital } from './entities/hospital.entity';
-import { User } from 'src/user/entities/user.entity';
-import { UpdateHospitalInput } from './dto/update-hospital.input';
-import { CreateHospitalWithAdminInput } from './dto/create-hospital.input';
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import * as bcrypt from "bcryptjs";
+import { Hospital } from "./entities/hospital.entity";
+import { User } from "src/user/entities/user.entity";
+import { UpdateHospitalInput } from "./dto/update-hospital.input";
+import { CreateHospitalWithAdminInput } from "./dto/create-hospital.input";
 
 @Injectable()
 export class HospitalService {
   constructor(
-    @InjectRepository(Hospital) private readonly hospitalRepository: Repository<Hospital>,
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(Hospital)
+    private readonly hospitalRepository: Repository<Hospital>,
+    @InjectRepository(User) private readonly userRepository: Repository<User>
   ) {}
 
-  async createWithAdmin(createHospitalWithAdminInput: CreateHospitalWithAdminInput): Promise<Hospital> {
-    const { hospitalName, district, sector, firstName, lastName, email, password } = createHospitalWithAdminInput;
+  async createWithAdmin(
+    createHospitalWithAdminInput: CreateHospitalWithAdminInput
+  ): Promise<Hospital> {
+    const {
+      hospitalName,
+      district,
+      sector,
+      firstName,
+      lastName,
+      email,
+      password
+    } = createHospitalWithAdminInput;
 
     // Check if the hospital already exists
-    const existingHospital = await this.hospitalRepository.findOne({ where: { hospitalName } });
+    const existingHospital = await this.hospitalRepository.findOne({
+      where: { hospitalName }
+    });
     if (existingHospital) {
-      throw new Error('Hospital ' + hospitalName + ' already exists');
+      throw new Error("Hospital " + hospitalName + " already exists");
     }
 
     // Check if a user with the provided email already exists
-    const existingUser = await this.userRepository.findOne({ where: { email } });
+    const existingUser = await this.userRepository.findOne({
+      where: { email }
+    });
     if (existingUser) {
-      throw new Error('User with email ' + email + ' already exists');
+      throw new Error("User with email " + email + " already exists");
     }
 
     // Create the new hospital
@@ -41,20 +56,20 @@ export class HospitalService {
     newUser.lastName = lastName;
     newUser.email = email;
     newUser.password = hashedPassword;
-    newUser.role = 'admin';
-    newUser.approved = true; 
+    newUser.role = "admin";
+    newUser.approved = true;
     const savedHospital = await this.hospitalRepository.save(newHospital);
 
     newUser.hospital = savedHospital;
     await this.userRepository.save(newUser);
     return this.hospitalRepository.findOne({
       where: { hospitalId: savedHospital.hospitalId },
-      relations: ['staff'],
+      relations: ["staff"]
     });
   }
 
   async findAll(): Promise<Hospital[]> {
-    return await this.hospitalRepository.find({ relations: ['staff'] });
+    return await this.hospitalRepository.find({ relations: ["staff"] });
   }
 
   findOne(id: number) {

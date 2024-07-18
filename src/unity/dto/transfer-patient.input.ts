@@ -1,4 +1,4 @@
-import { Field, Int, InputType } from '@nestjs/graphql';
+import { Field, Int, InputType } from "@nestjs/graphql";
 
 @InputType()
 export class TransferPatientInput {
@@ -6,7 +6,7 @@ export class TransferPatientInput {
   patientId: number;
 
   @Field(() => Int)
-  currentUnityId: number;
+  targetDepartmentId: number;
 
   @Field(() => Int)
   targetUnityId: number;

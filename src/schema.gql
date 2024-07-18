@@ -230,19 +230,21 @@ input UpdateUnityInput {
 
 input TransferPatientInput {
   patientId: Int!
-  currentUnityId: Int!
+  targetDepartmentId: Int!
   targetUnityId: Int!
 }
 
 input CreatePatientInput {
   firstName: String!
   lastName: String!
+  departmentId: Float!
   unityId: Int!
 }
 
 input UpdatePatientInput {
   firstName: String
   lastName: String
+  departmentId: Float
   unityId: Int
   id: Int!
 }

@@ -1,27 +1,27 @@
-import { Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { join } from 'path';
-import { TypeOrmModule} from '@nestjs/typeorm';
-import { UserModule } from './user/user.module';
-import { HospitalModule } from './hospital/hospital.module';
-import { ProfileModule } from './profile/profile.module';
-import { DepartmentModule } from './department/department.module';
-import { UnityModule } from './unity/unity.module';
-import { PatientModule } from './patient/patient.module';
-import { SbarModule } from './sbar/sbar.module';
-import { HandoverModule } from './handover/handover.module';
-import { AuthModule } from './auth/auth.module';
+import { Module } from "@nestjs/common";
+import { GraphQLModule } from "@nestjs/graphql";
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { join } from "path";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { UserModule } from "./user/user.module";
+import { HospitalModule } from "./hospital/hospital.module";
+import { ProfileModule } from "./profile/profile.module";
+import { DepartmentModule } from "./department/department.module";
+import { UnityModule } from "./unity/unity.module";
+import { PatientModule } from "./patient/patient.module";
+import { SbarModule } from "./sbar/sbar.module";
+import { HandoverModule } from "./handover/handover.module";
+import { AuthModule } from "./auth/auth.module";
 
-import 'dotenv/config';
-import { ConfigModule } from '@nestjs/config';
-import { CreateSuperAdminService } from './auth/createSuperAdmin';
-import { User } from './user/entities/user.entity';
+import "dotenv/config";
+import { ConfigModule } from "@nestjs/config";
+import { CreateSuperAdminService } from "./auth/createSuperAdmin";
+import { User } from "./user/entities/user.entity";
 
-const TypeOrmConfig:any = {
-  type: 'postgres',
+const TypeOrmConfig: any = {
+  type: "postgres",
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT, 10),
   username: process.env.DB_USER,
@@ -29,7 +29,7 @@ const TypeOrmConfig:any = {
   database: process.env.DB_NAME,
   synchronize: true,
   validation: true,
-  entities: ['dist/**/*.entity.js'],
+  entities: ["dist/**/*.entity.js"]
 };
 
 @Module({
@@ -37,11 +37,11 @@ const TypeOrmConfig:any = {
     TypeOrmModule.forRoot(TypeOrmConfig),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      context: ({ req, res }) => ({ req, res }),
+      autoSchemaFile: join(process.cwd(), "src/schema.gql"),
+      context: ({ req, res }) => ({ req, res })
     }),
     ConfigModule.forRoot({
-      isGlobal:true,
+      isGlobal: true
     }),
     UserModule,
     HospitalModule,
@@ -54,8 +54,8 @@ const TypeOrmConfig:any = {
     AuthModule,
     TypeOrmModule.forFeature([User])
   ],
-  
+
   controllers: [AppController],
-  providers: [AppService,CreateSuperAdminService],
+  providers: [AppService, CreateSuperAdminService]
 })
 export class AppModule {}

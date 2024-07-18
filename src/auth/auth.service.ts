@@ -1,11 +1,11 @@
 // src/auth/auth.service.ts
 
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcryptjs';
+import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import * as bcrypt from "bcryptjs";
 
-import { User } from '../user/entities/user.entity';
-import { UserService } from 'src/user/user.service';
+import { User } from "../user/entities/user.entity";
+import { UserService } from "src/user/user.service";
 
 @Injectable()
 export class AuthService {
@@ -16,24 +16,28 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<User> {
     const user = await this.userService.findByEmail(email);
-    console.log("this is a user got when validating",user)
+    console.log("this is a user got when validating", user);
     if (!user) {
-      console.log(`User with email ${email} not found`)
-      throw new UnauthorizedException('Invalid credentials');
+      console.log(`User with email ${email} not found`);
+      throw new UnauthorizedException("Invalid credentials");
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      console.log(`User with email ${email} not found`)
-      throw new UnauthorizedException('Invalid credentials');
+      console.log(`User with email ${email} not found`);
+      throw new UnauthorizedException("Invalid credentials");
     }
 
-    if(user.role==='admin' && !user.approved){
-      throw new UnauthorizedException('You need system admin approval to login');
-    }else if(user.role!=='admin' && !user.approved){
-      throw new UnauthorizedException('You need your hospital admin approval to login');
+    if (user.role === "admin" && !user.approved) {
+      throw new UnauthorizedException(
+        "You need system admin approval to login"
+      );
+    } else if (user.role !== "admin" && !user.approved) {
+      throw new UnauthorizedException(
+        "You need your hospital admin approval to login"
+      );
     }
-  console.log("user got",user)
+    console.log("user got", user);
     return user;
   }
 
@@ -44,13 +48,12 @@ export class AuthService {
       firstName: user.firstName,
       lastName: user.lastName,
       role: user.role,
-      hospital:user.hospital?.hospitalName || '',
-      hospitalId:user.hospital?.hospitalId || '',
-      approved:user.approved
-      
+      hospital: user.hospital?.hospitalName || "",
+      hospitalId: user.hospital?.hospitalId || "",
+      approved: user.approved
     };
     return {
-      accessToken: this.jwtService.sign({...userPayload}),
+      accessToken: this.jwtService.sign({ ...userPayload })
     };
   }
 }

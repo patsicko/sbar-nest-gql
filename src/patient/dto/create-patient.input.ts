@@ -1,5 +1,5 @@
 // create-patient.input.ts
-import { InputType, Field, Int } from '@nestjs/graphql';
+import { InputType, Field, Int } from "@nestjs/graphql";
 
 @InputType()
 export class CreatePatientInput {
@@ -8,6 +8,9 @@ export class CreatePatientInput {
 
   @Field()
   lastName: string;
+
+  @Field()
+  departmentId: number;
 
   @Field(() => Int)
   unityId: number;

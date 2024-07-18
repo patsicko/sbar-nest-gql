@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { CreateProfileInput } from './dto/create-profile.input';
-import { UpdateProfileInput } from './dto/update-profile.input';
+import { Injectable } from "@nestjs/common";
+import { CreateProfileInput } from "./dto/create-profile.input";
+import { UpdateProfileInput } from "./dto/update-profile.input";
 
 @Injectable()
 export class ProfileService {
   create(createProfileInput: CreateProfileInput) {
-    return 'This action adds a new profile';
+    return "This action adds a new profile";
   }
 
   findAll() {
