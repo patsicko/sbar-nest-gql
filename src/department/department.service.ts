@@ -93,9 +93,19 @@ export class DepartmentService {
     return this.departmentRepository.save(department);
   }
 
-  async remove(id: number): Promise<Department> {
+  async remove(id: number): Promise<any> {
     const department = await this.findOne(id);
-    await this.departmentRepository.remove(department);
-    return department;
+    try {
+      await this.departmentRepository.remove(department);
+      return {
+        success: true,
+        message: `Department with ID ${id} deleted successfully`
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message
+      };
+    }
   }
 }

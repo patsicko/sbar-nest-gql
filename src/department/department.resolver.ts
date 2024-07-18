@@ -7,6 +7,7 @@ import { UseGuards } from "@nestjs/common";
 import { CurrentUser } from "src/auth/decorators/current-user.decorator";
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 import { User } from "src/user/entities/user.entity";
+import { RemoveDepartmentResponse } from "./dto/remove-department";
 
 @Resolver(() => Department)
 export class DepartmentResolver {
@@ -45,8 +46,10 @@ export class DepartmentResolver {
     );
   }
 
-  @Mutation(() => Department)
-  removeDepartment(@Args("id", { type: () => Int }) id: number) {
+  @Mutation(() => RemoveDepartmentResponse)
+  removeDepartment(
+    @Args("id", { type: () => Int }) id: number
+  ): Promise<Promise<RemoveDepartmentResponse>> {
     return this.departmentService.remove(id);
   }
 }

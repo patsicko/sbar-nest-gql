@@ -31,7 +31,10 @@ export class Patient {
   @Field(() => Unity)
   unity: Unity;
 
-  @ManyToOne(() => Department, (department) => department.patients)
+  @ManyToOne(() => Department, (department) => department.patients, {
+    cascade: true,
+    onDelete: "CASCADE"
+  })
   @Field(() => Department)
   department: Department;
 

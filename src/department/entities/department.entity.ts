@@ -36,7 +36,10 @@ export class Department {
   @Field(() => [Unity], { nullable: true })
   unities?: Unity[];
 
-  @OneToMany(() => User, (user) => user.department)
+  @OneToMany(() => User, (user) => user.department, {
+    cascade: true,
+    onDelete: "SET NULL"
+  })
   @Field(() => [User], { nullable: true })
   staff?: User[];
 }

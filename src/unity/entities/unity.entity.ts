@@ -22,19 +22,31 @@ export class Unity {
   @Field()
   name: string;
 
-  @ManyToOne(() => Department, (department) => department.unities)
+  @ManyToOne(() => Department, (department) => department.unities, {
+    cascade: true,
+    onDelete: "SET NULL"
+  })
   @Field(() => Department)
   department: Department;
 
-  @OneToMany(() => User, (user) => user.unity)
+  @OneToMany(() => User, (user) => user.unity, {
+    cascade: true,
+    onDelete: "SET NULL"
+  })
   @Field(() => User, { nullable: true })
   staff: User[];
 
-  @OneToMany(() => Patient, (patient) => patient.unity)
+  @OneToMany(() => Patient, (patient) => patient.unity, {
+    cascade: true,
+    onDelete: "CASCADE"
+  })
   @Field(() => [Patient], { nullable: true })
   patients?: Patient[];
 
-  @OneToMany(() => Handover, (handover) => handover.unity)
+  @OneToMany(() => Handover, (handover) => handover.unity, {
+    cascade: true,
+    onDelete: "CASCADE"
+  })
   @Field(() => [Handover], { nullable: true })
   handovers?: Handover[];
 }
