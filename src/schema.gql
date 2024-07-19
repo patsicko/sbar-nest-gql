@@ -237,12 +237,14 @@ input TransferPatientInput {
 input CreatePatientInput {
   firstName: String!
   lastName: String!
+  departmentId: Int!
   unityId: Int!
 }
 
 input UpdatePatientInput {
   firstName: String
   lastName: String
+  departmentId: Int
   unityId: Int
   id: Int!
 }

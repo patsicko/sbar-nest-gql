@@ -10,5 +10,8 @@ export class CreatePatientInput {
   lastName: string;
 
   @Field(() => Int)
+  departmentId: number;
+
+  @Field(() => Int)
   unityId: number;
 }
