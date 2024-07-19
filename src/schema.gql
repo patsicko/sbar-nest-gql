@@ -87,6 +87,11 @@ type Profile {
   user: User!
 }
 
+type RemoveDepartmentResponse {
+  success: Boolean!
+  message: String
+}
+
 type Query {
   allUsers: [User!]
   GetuserById(id: Int!): User
@@ -124,7 +129,7 @@ type Mutation {
   removeProfile(id: Int!): Profile!
   createDepartment(createDepartmentInput: CreateDepartmentInput!): Department!
   updateDepartment(updateDepartmentInput: UpdateDepartmentInput!): Department!
-  removeDepartment(id: Int!): Department!
+  removeDepartment(id: Int!): RemoveDepartmentResponse!
   createUnity(createUnityInput: CreateUnityInput!): Unity!
   updateUnity(updateUnityInput: UpdateUnityInput!): Unity!
   removeUnity(id: Int!): Unity!
@@ -230,7 +235,7 @@ input UpdateUnityInput {
 
 input TransferPatientInput {
   patientId: Int!
-  currentUnityId: Int!
+  targetDepartmentId: Int!
   targetUnityId: Int!
 }
 

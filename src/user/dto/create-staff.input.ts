@@ -1,6 +1,6 @@
 // dto/create-staff.input.ts
-import { InputType, Field } from '@nestjs/graphql';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { InputType, Field } from "@nestjs/graphql";
+import { IsEmail, IsNotEmpty } from "class-validator";
 
 @InputType()
 export class CreateStaffInput {
@@ -25,5 +25,5 @@ export class CreateStaffInput {
   role: string;
 
   @Field()
-  hospitalId:number
+  hospitalId: number;
 }

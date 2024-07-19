@@ -1,7 +1,13 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Patient } from 'src/patient/entities/patient.entity';
-import { User } from 'src/user/entities/user.entity';
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { ObjectType, Field, Int } from "@nestjs/graphql";
+import { Patient } from "src/patient/entities/patient.entity";
+import { User } from "src/user/entities/user.entity";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn
+} from "typeorm";
 
 @Entity()
 @ObjectType()
@@ -26,19 +32,22 @@ export class Sbar {
   @Field()
   recommendation: string;
 
-  @ManyToOne(() => Patient, patient => patient.sbars, { nullable: false, onDelete: 'CASCADE' })
+  @ManyToOne(() => Patient, (patient) => patient.sbars, {
+    nullable: false,
+    onDelete: "CASCADE"
+  })
   @Field(() => Patient)
   patient: Patient;
 
-  @ManyToOne(() => User, user => user.sbarsCreated, { nullable: false })
+  @ManyToOne(() => User, (user) => user.sbarsCreated, { nullable: false })
   @Field(() => User)
   createdBy: User;
 
-  @ManyToOne(() => User, user => user.sbarsUpdated, { nullable: true })
+  @ManyToOne(() => User, (user) => user.sbarsUpdated, { nullable: true })
   @Field(() => User, { nullable: true })
   updatedBy?: User;
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   @Field(() => String)
-  createdAt: String;
+  createdAt: string;
 }

@@ -1,6 +1,5 @@
-
-import { InputType, Field } from '@nestjs/graphql';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { InputType, Field } from "@nestjs/graphql";
+import { IsEmail, IsNotEmpty } from "class-validator";
 
 @InputType()
 export class CreateHospitalWithAdminInput {
@@ -26,7 +25,7 @@ export class CreateHospitalWithAdminInput {
 
   @Field()
   @IsNotEmpty()
-  @ IsEmail()
+  @IsEmail()
   email: string;
 
   @Field()

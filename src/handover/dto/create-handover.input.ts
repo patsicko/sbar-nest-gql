@@ -1,5 +1,5 @@
 // create-handover.input.ts
-import { InputType, Field, Int } from '@nestjs/graphql';
+import { InputType, Field, Int } from "@nestjs/graphql";
 
 @InputType()
 export class CreateHandoverInput {
