@@ -7,6 +7,7 @@ import { Unity } from "src/unity/entities/unity.entity";
 import { User } from "src/user/entities/user.entity";
 import { UpdatePatientInput } from "./dto/update-patient.input";
 import { Department } from "src/department/entities/department.entity";
+import { Hospital } from "src/hospital/entities/hospital.entity";
 
 @Injectable()
 export class PatientService {
@@ -17,20 +18,26 @@ export class PatientService {
     private readonly unityRepository: Repository<Unity>,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     @InjectRepository(Department)
-    private readonly departmentRepository: Repository<Department>
+    private readonly departmentRepository: Repository<Department>,
+    @InjectRepository(Hospital)
+    private readonly hospitalRepository:Repository<Hospital>
+    
   ) {}
 
   async create(
     createPatientInput: CreatePatientInput,
     staffId: number
   ): Promise<Patient> {
-    const staff = await this.userRepository.findOne({
+    const staff = await this.userRepository.findOne( {
       where: { id: staffId },
-      relations: ["department"]
+      relations: ["hospital","department"]
     });
     if (!staff) {
       throw new Error("Staff not found");
     }
+   
+    console.log("staff logged",staff)
+  
 
     const department = await this.departmentRepository.findOne({
       where: { id: createPatientInput.departmentId }
@@ -46,15 +53,25 @@ export class PatientService {
     const patient = this.patientRepository.create({
       ...createPatientInput,
       unity,
-      department: department
+      department: department,
+      hospital:staff.hospital
     });
-
+console.log("patient created",patient)
     return await this.patientRepository.save(patient);
   }
 
-  async findAll(): Promise<Patient[]> {
+  async findAll(staffId:number): Promise<Patient[]> {
+    const staff = await this.userRepository.findOne({
+      where: { id: staffId },
+      relations: ["hospital"]
+    });
+    if (!staff) {
+      throw new Error("Staff not found");
+    }
+    
     return this.patientRepository.find({
-      relations: ["unity", "department", "sbars"]
+      where: { hospital: staff.hospital },
+      relations: ["hospital","unity", "department", "sbars"]
     });
   }
 

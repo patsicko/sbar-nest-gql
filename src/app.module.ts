@@ -21,7 +21,7 @@ import { CreateSuperAdminService } from "./auth/createSuperAdmin";
 import { User } from "./user/entities/user.entity";
 
 const TypeOrmConfig:any = {
-  type: 'mysql',
+  type: 'postgres',
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT, 10),
   username: process.env.DB_USER,

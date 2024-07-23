@@ -2,16 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Hospital {
-  """Hospital Id"""
-  hospitalId: Int!
-  hospitalName: String!
-  district: String
-  sector: String
-  departments: [Department!]
-  staff: [User!]
-}
-
 type Sbar {
   id: Int!
   situation: String!
@@ -30,8 +20,20 @@ type Patient {
   lastName: String!
   unity: Unity!
   department: Department!
+  hospital: Hospital!
   sbars: [Sbar!]
   isActive: Boolean!
+}
+
+type Hospital {
+  """Hospital Id"""
+  hospitalId: Int!
+  hospitalName: String!
+  district: String
+  sector: String
+  departments: [Department!]
+  staff: [User!]
+  patients: [Patient!]
 }
 
 type Department {
@@ -92,6 +94,11 @@ type RemoveDepartmentResponse {
   message: String
 }
 
+type RemoveUnitResponse {
+  success: Boolean!
+  message: String
+}
+
 type Query {
   allUsers: [User!]
   GetuserById(id: Int!): User
@@ -132,7 +139,7 @@ type Mutation {
   removeDepartment(id: Int!): RemoveDepartmentResponse!
   createUnity(createUnityInput: CreateUnityInput!): Unity!
   updateUnity(updateUnityInput: UpdateUnityInput!): Unity!
-  removeUnity(id: Int!): Unity!
+  removeUnity(id: Int!): RemoveUnitResponse!
   transferPatient(transferPatientInput: TransferPatientInput!): Patient!
   createPatient(createPatientInput: CreatePatientInput!): Patient!
   updatePatient(updatePatientInput: UpdatePatientInput!): Patient!
@@ -242,14 +249,14 @@ input TransferPatientInput {
 input CreatePatientInput {
   firstName: String!
   lastName: String!
-  departmentId: Int!
+  departmentId: Float!
   unityId: Int!
 }
 
 input UpdatePatientInput {
   firstName: String
   lastName: String
-  departmentId: Int
+  departmentId: Float
   unityId: Int
   id: Int!
 }

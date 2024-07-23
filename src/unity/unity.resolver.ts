@@ -9,6 +9,7 @@ import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
 import { User } from "src/user/entities/user.entity";
 import { Patient } from "src/patient/entities/patient.entity";
 import { TransferPatientInput } from "./dto/transfer-patient.input";
+import { RemoveUnitResponse } from "./dto/remove-unity-input";
 
 @Resolver(() => Unity)
 export class UnityResolver {
@@ -41,7 +42,7 @@ export class UnityResolver {
     return this.unityService.update(updateUnityInput.id, updateUnityInput);
   }
 
-  @Mutation(() => Unity)
+  @Mutation(() => RemoveUnitResponse)
   removeUnity(@Args("id", { type: () => Int }) id: number) {
     return this.unityService.remove(id);
   }

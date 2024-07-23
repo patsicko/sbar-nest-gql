@@ -36,10 +36,7 @@ export class Unity {
   @Field(() => User, { nullable: true })
   staff: User[];
 
-  @OneToMany(() => Patient, (patient) => patient.unity, {
-    cascade: true,
-    onDelete: "CASCADE"
-  })
+  @OneToMany(() => Patient, (patient) => patient.unity)
   @Field(() => [Patient], { nullable: true })
   patients?: Patient[];
 

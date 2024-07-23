@@ -1,6 +1,7 @@
 import { ObjectType, Field, Int } from "@nestjs/graphql";
 import { IsNotEmpty } from "class-validator";
 import { Department } from "src/department/entities/department.entity";
+import { Patient } from "src/patient/entities/patient.entity";
 import { User } from "src/user/entities/user.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
@@ -33,4 +34,8 @@ export class Hospital {
   @OneToMany(() => User, (user) => user.hospital)
   @Field(() => [User], { nullable: true })
   staff: User[];
+
+  @OneToMany(()=>Patient,(patient)=>patient.hospital)
+  @Field(()=>[Patient],{nullable:true})
+  patients:Patient[];
 }

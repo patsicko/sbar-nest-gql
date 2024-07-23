@@ -33,7 +33,7 @@ export class Sbar {
   recommendation: string;
 
   @ManyToOne(() => Patient, (patient) => patient.sbars, {
-    nullable: false,
+    cascade: true,
     onDelete: "CASCADE"
   })
   @Field(() => Patient)

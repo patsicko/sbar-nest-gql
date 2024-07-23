@@ -25,8 +25,9 @@ export class PatientResolver {
   }
 
   @Query(() => [Patient], { name: "getPatients" })
-  findAll() {
-    return this.patientService.findAll();
+  @UseGuards(JwtAuthGuard)
+  findAll(@CurrentUser() user: User) {
+    return this.patientService.findAll(user.id);
   }
 
   @Query(() => [Patient], { name: "findPatientsByUnity" })

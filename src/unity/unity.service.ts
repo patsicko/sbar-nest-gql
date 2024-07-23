@@ -105,9 +105,21 @@ export class UnityService {
   }
 
   async remove(id: number): Promise<Unity | null | any> {
-    const unity = await this.findOne(id);
-    await this.unityRepository.remove(unity);
-    return { message: "Unity " + unity.name + "deleted successfully" };
+    try{
+      const unity = await this.findOne(id);
+      await this.unityRepository.remove(unity);
+     return {
+      success: true,
+      message: `Unit with ID ${id} deleted successfully`
+    };
+
+    }catch(error){
+      return {
+        success: false,
+        message: error.message
+      };
+    }
+
   }
 
   async transferPatient(

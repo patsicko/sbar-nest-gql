@@ -2,6 +2,7 @@
 
 import { ObjectType, Field, Int } from "@nestjs/graphql";
 import { Department } from "src/department/entities/department.entity";
+import { Hospital } from "src/hospital/entities/hospital.entity";
 import { Sbar } from "src/sbar/entities/sbar.entity";
 import { Unity } from "src/unity/entities/unity.entity";
 import {
@@ -27,7 +28,10 @@ export class Patient {
   @Field()
   lastName: string;
 
-  @ManyToOne(() => Unity, (unity) => unity.patients)
+  @ManyToOne(() => Unity, (unity) => unity.patients,{
+    cascade: true,
+    onDelete: "CASCADE"
+  })
   @Field(() => Unity)
   unity: Unity;
 
@@ -37,6 +41,12 @@ export class Patient {
   })
   @Field(() => Department)
   department: Department;
+
+  @ManyToOne(()=>Hospital, (hospital)=>hospital.patients,{
+    cascade:true,onDelete:"CASCADE"
+  })
+  @Field(()=>Hospital)
+  hospital:Hospital
 
   @OneToMany(() => Sbar, (sbar) => sbar.patient)
   @Field(() => [Sbar], { nullable: true })
