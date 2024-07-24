@@ -123,6 +123,12 @@ console.log("patient created",patient)
     return this.patientRepository.save(patient);
   }
 
+  async restorePatient(id: number): Promise<Patient> {
+    const patient = await this.findOne(id);
+    patient.isActive = true;
+    return this.patientRepository.save(patient);
+  }
+
   async remove(id: number): Promise<Patient> {
     const patient = await this.findOne(id);
     await this.patientRepository.remove(patient);

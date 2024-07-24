@@ -56,6 +56,11 @@ export class PatientResolver {
   }
 
   @Mutation(() => Patient)
+  restorePatient(@Args("patientId", { type: () => Int }) patientId: number) {
+    return this.patientService.restorePatient(patientId);
+  }
+
+  @Mutation(() => Patient)
   removePatient(@Args("id", { type: () => Int }) id: number) {
     return this.patientService.remove(id);
   }

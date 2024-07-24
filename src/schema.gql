@@ -144,6 +144,7 @@ type Mutation {
   createPatient(createPatientInput: CreatePatientInput!): Patient!
   updatePatient(updatePatientInput: UpdatePatientInput!): Patient!
   archivePatient(patientId: Int!): Patient!
+  restorePatient(patientId: Int!): Patient!
   removePatient(id: Int!): Patient!
   createSbar(createSbarInput: CreateSbarInput!): Sbar!
   updateSbar(updateSbarInput: UpdateSbarInput!): Sbar!
