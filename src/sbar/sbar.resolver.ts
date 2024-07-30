@@ -54,4 +54,10 @@ export class SbarResolver {
   removeSbar(@Args("id", { type: () => Int }) id: number) {
     return this.sbarService.remove(id);
   }
+
+  @Query(() => Sbar, { name: "getLatestSbar" })
+  findLatest() {
+    return this.sbarService.findLatest();
+  }
+
 }

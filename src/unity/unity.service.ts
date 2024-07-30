@@ -76,7 +76,7 @@ export class UnityService {
       .createQueryBuilder("unity")
       .leftJoinAndSelect("unity.department", "department")
       .leftJoinAndSelect("unity.patients", "patients")
-      .leftJoinAndSelect("unity.handovers", "handovers");
+     
 
     if (departmentId) {
       query.where("unity.departmentId = :departmentId", { departmentId });
@@ -88,7 +88,7 @@ export class UnityService {
   async findOne(id: number): Promise<Unity> {
     const unity = await this.unityRepository.findOne({
       where: { id },
-      relations: ["department", "patients", "handovers"]
+      relations: ["department", "patients"]
     });
     if (!unity) {
       throw new NotFoundException(`Unity with ID ${id} not found`);

@@ -55,7 +55,8 @@ export class User {
       "doctor",
       "dg",
       "nurse",
-      "mid"
+      "mid",
+      "anesthesist"
     ],
     default: "user"
   })

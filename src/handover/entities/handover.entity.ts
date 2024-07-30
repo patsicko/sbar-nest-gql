@@ -20,10 +20,6 @@ export class Handover {
   @Field(() => Int)
   id: number;
 
-  @ManyToOne(() => Unity, (unity) => unity.handovers)
-  @Field(() => Unity)
-  unity: Unity;
-
   @ManyToOne(() => User, (user) => user.handoversGiven)
   @Field(() => User)
   fromStaff: User;
@@ -32,14 +28,11 @@ export class Handover {
   @Field(() => User)
   toStaff: User;
 
-  @ManyToMany(() => Sbar, { cascade: true })
-  @JoinTable()
-  @Field(() => [Sbar], { nullable: true })
-  sbarsGiven?: Sbar[];
-
-  @Column()
+  @Column({ nullable: true })
+  @Field()
   handoverDetails: string;
 
   @Column({ nullable: true })
+  @Field()
   receiptSignature: boolean;
 }

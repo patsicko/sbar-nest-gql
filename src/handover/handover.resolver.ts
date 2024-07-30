@@ -2,7 +2,7 @@ import { Resolver, Query, Mutation, Args, Int } from "@nestjs/graphql";
 import { HandoverService } from "./handover.service";
 import { Handover } from "./entities/handover.entity";
 import { CreateHandoverInput } from "./dto/create-handover.input";
-import { UpdateHandoverInput } from "./dto/update-handover.input";
+import { ApproveHandoverInput,  } from "./dto/update-handover.input";
 
 @Resolver(() => Handover)
 export class HandoverResolver {
@@ -26,12 +26,12 @@ export class HandoverResolver {
   }
 
   @Mutation(() => Handover)
-  updateHandover(
-    @Args("updateHandoverInput") updateHandoverInput: UpdateHandoverInput
+  approveHandover(
+    @Args("approveHandoverInput") approveHandoverInput: ApproveHandoverInput
   ) {
-    return this.handoverService.update(
-      updateHandoverInput.id,
-      updateHandoverInput
+    return this.handoverService.approve(
+      approveHandoverInput.id,
+      approveHandoverInput
     );
   }
 

@@ -40,10 +40,4 @@ export class Unity {
   @Field(() => [Patient], { nullable: true })
   patients?: Patient[];
 
-  @OneToMany(() => Handover, (handover) => handover.unity, {
-    cascade: true,
-    onDelete: "CASCADE"
-  })
-  @Field(() => [Handover], { nullable: true })
-  handovers?: Handover[];
 }

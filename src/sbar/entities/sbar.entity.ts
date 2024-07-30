@@ -39,8 +39,11 @@ export class Sbar {
   @Field(() => Patient)
   patient: Patient;
 
-  @ManyToOne(() => User, (user) => user.sbarsCreated, { nullable: false })
-  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.sbarsCreated, {
+    cascade: true,
+    onDelete: "CASCADE"
+  })
+  @Field(() => User,{ nullable: true })
   createdBy: User;
 
   @ManyToOne(() => User, (user) => user.sbarsUpdated, { nullable: true })

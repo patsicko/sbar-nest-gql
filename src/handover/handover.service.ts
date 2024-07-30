@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Handover } from "./entities/handover.entity";
 import { CreateHandoverInput } from "./dto/create-handover.input";
-import { UpdateHandoverInput } from "./dto/update-handover.input";
+import { ApproveHandoverInput } from "./dto/update-handover.input";
 import { Unity } from "src/unity/entities/unity.entity";
 import { User } from "src/user/entities/user.entity";
 import { Sbar } from "src/sbar/entities/sbar.entity";
@@ -20,15 +20,6 @@ export class HandoverService {
   ) {}
 
   async create(createHandoverInput: CreateHandoverInput): Promise<Handover> {
-    const unity = await this.unityRepository.findOne({
-      where: { id: createHandoverInput.unityId }
-    });
-    if (!unity) {
-      throw new NotFoundException(
-        `Unity with ID ${createHandoverInput.unityId} not found`
-      );
-    }
-
     const fromStaff = await this.userRepository.findOne({
       where: { id: createHandoverInput.fromStaffId }
     });
@@ -47,16 +38,15 @@ export class HandoverService {
       );
     }
 
-    const sbars = createHandoverInput.sbarIds
-      ? await this.sbarRepository.findByIds(createHandoverInput.sbarIds)
-      : [];
+
 
     const handover = this.handoverRepository.create({
-      ...createHandoverInput,
-      unity,
+      handoverDetails:createHandoverInput.handoverDetails,
       fromStaff,
       toStaff,
-      sbarsGiven: sbars
+      receiptSignature:false
+
+     
     });
 
     return await this.handoverRepository.save(handover);
@@ -64,14 +54,14 @@ export class HandoverService {
 
   async findAll(): Promise<Handover[]> {
     return this.handoverRepository.find({
-      relations: ["unity", "fromStaff", "toStaff", "sbarsGiven"]
+      relations: ["fromStaff", "toStaff"]
     });
   }
 
   async findOne(id: number): Promise<Handover> {
     const handover = await this.handoverRepository.findOne({
       where: { id },
-      relations: ["unity", "fromStaff", "toStaff", "sbarsGiven"]
+      relations: ["fromStaff", "toStaff"]
     });
     if (!handover) {
       throw new NotFoundException(`Handover with ID ${id} not found`);
@@ -79,20 +69,12 @@ export class HandoverService {
     return handover;
   }
 
-  async update(
+  async approve(
     id: number,
-    updateHandoverInput: UpdateHandoverInput
+    approveHandoverInput: ApproveHandoverInput
   ): Promise<Handover> {
     const handover = await this.findOne(id);
-
-    if (updateHandoverInput.sbarIds) {
-      const sbars = await this.sbarRepository.findByIds(
-        updateHandoverInput.sbarIds
-      );
-      handover.sbarsGiven = sbars;
-    }
-
-    Object.assign(handover, updateHandoverInput);
+    Object.assign(handover, approveHandoverInput);
 
     return this.handoverRepository.save(handover);
   }

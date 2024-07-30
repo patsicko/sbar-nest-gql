@@ -2,6 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Handover {
+  id: Int!
+  fromStaff: User!
+  toStaff: User!
+  handoverDetails: String!
+  receiptSignature: Boolean!
+}
+
 type Sbar {
   id: Int!
   situation: String!
@@ -9,9 +17,17 @@ type Sbar {
   assessment: String!
   recommendation: String!
   patient: Patient!
-  createdBy: User!
+  createdBy: User
   updatedBy: User
   createdAt: String!
+}
+
+type Unity {
+  id: Int!
+  name: String!
+  department: Department!
+  staff: User
+  patients: [Patient!]
 }
 
 type Patient {
@@ -25,17 +41,6 @@ type Patient {
   isActive: Boolean!
 }
 
-type Hospital {
-  """Hospital Id"""
-  hospitalId: Int!
-  hospitalName: String!
-  district: String
-  sector: String
-  departments: [Department!]
-  staff: [User!]
-  patients: [Patient!]
-}
-
 type Department {
   id: Int!
   name: String!
@@ -45,21 +50,15 @@ type Department {
   staff: [User!]
 }
 
-type Unity {
-  id: Int!
-  name: String!
-  department: Department!
-  staff: User
+type Hospital {
+  """Hospital Id"""
+  hospitalId: Int!
+  hospitalName: String!
+  district: String
+  sector: String
+  departments: [Department!]
+  staff: [User!]
   patients: [Patient!]
-  handovers: [Handover!]
-}
-
-type Handover {
-  id: Int!
-  unity: Unity!
-  fromStaff: User!
-  toStaff: User!
-  sbarsGiven: [Sbar!]
 }
 
 type User {
@@ -115,6 +114,7 @@ type Query {
   getSbars: [Sbar!]!
   findSbarsByPatient(patientId: Int!): [Sbar!]!
   getSbar(id: Int!): Sbar!
+  getLatestSbar: Sbar!
   getHandovers: [Handover!]!
   getHandover(id: Int!): Handover!
 }
@@ -150,7 +150,7 @@ type Mutation {
   updateSbar(updateSbarInput: UpdateSbarInput!): Sbar!
   removeSbar(id: Int!): Sbar!
   createHandover(createHandoverInput: CreateHandoverInput!): Handover!
-  updateHandover(updateHandoverInput: UpdateHandoverInput!): Handover!
+  approveHandover(approveHandoverInput: ApproveHandoverInput!): Handover!
   removeHandover(id: Int!): Handover!
 }
 
@@ -281,20 +281,15 @@ input UpdateSbarInput {
 }
 
 input CreateHandoverInput {
-  unityId: Int!
   fromStaffId: Int!
   toStaffId: Int!
-  sbarIds: [Int!]
   handoverDetails: String!
-  receiptSignature: Boolean
 }
 
-input UpdateHandoverInput {
-  unityId: Int
+input ApproveHandoverInput {
   fromStaffId: Int
   toStaffId: Int
-  sbarIds: [Int!]
   handoverDetails: String
-  receiptSignature: Boolean
   id: Int!
+  receiptSignature: Boolean! = true
 }

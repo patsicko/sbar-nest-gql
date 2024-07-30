@@ -104,4 +104,16 @@ export class SbarService {
     await this.sbarRepository.remove(sbar);
     return sbar;
   }
+
+
+  async findLatest(): Promise<Sbar> {
+    const latestSbar = await this.sbarRepository.findOne({
+      order: { createdAt: "DESC" },
+      relations: ["patient", "createdBy", "updatedBy"]
+    });
+    if (!latestSbar) {
+      throw new NotFoundException("No SBARs found");
+    }
+    return latestSbar;
+  }
 }

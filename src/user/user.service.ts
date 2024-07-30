@@ -143,13 +143,13 @@ export class UserService {
   ): Promise<User> {
     const { userId, departmentId, unityId } = assignDepartmentInput;
     console.log("assignInput", assignDepartmentInput);
-    // Check if staff exists
+    
     const staff = await this.userRepository.findOne({ where: { id: userId } });
     if (!staff) {
       throw new NotFoundException(`Staff with ID '${userId}' not found`);
     }
 
-    // Check if department exists
+  
     const department = await this.departmentRepository.findOne({
       where: { id: departmentId }
     });
@@ -159,7 +159,7 @@ export class UserService {
       );
     }
 
-    // Check if unit exists in the department
+   
     const unity = await this.unitRepository.findOne({
       where: { id: unityId, department: { id: departmentId } }
     });
