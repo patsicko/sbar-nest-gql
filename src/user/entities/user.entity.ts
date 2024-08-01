@@ -69,7 +69,9 @@ export class User {
   @IsNotEmpty()
   approved: boolean;
 
-  @ManyToOne(() => Hospital, (hospital) => hospital.staff)
+  @ManyToOne(() => Hospital, (hospital) => hospital.staff,{
+    cascade:true,onDelete:"CASCADE"
+  })
   @Field(() => Hospital, { nullable: true })
   hospital?: Hospital;
 

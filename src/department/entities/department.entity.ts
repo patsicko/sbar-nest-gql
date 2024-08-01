@@ -24,7 +24,9 @@ export class Department {
   @Field()
   name: string;
 
-  @ManyToOne(() => Hospital, (hospital) => hospital.departments)
+  @ManyToOne(() => Hospital, (hospital) => hospital.departments,{
+    cascade:true,onDelete:"CASCADE"
+  })
   @Field(() => Hospital)
   hospital: Hospital;
 
