@@ -22,7 +22,7 @@ export class AuthResolver {
 
     context.res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      sameSite: "none",    
+      sameSite: "lax",    
       secure: true,         
       maxAge: 24 * 60 * 60 * 1000,
     });
