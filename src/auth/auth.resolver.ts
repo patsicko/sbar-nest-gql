@@ -21,9 +21,10 @@ export class AuthResolver {
     const { accessToken } = await this.authService.login(user);
 
     context.res.cookie("accessToken", accessToken, {
-      httpOnly: true,        
-      secure: true,       
-      maxAge: 24 * 60 * 60 * 1000, 
+      httpOnly: true,
+      sameSite: "none",    
+      secure: true,         
+      maxAge: 24 * 60 * 60 * 1000,
     });
 
     return { accessToken };
