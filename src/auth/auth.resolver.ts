@@ -21,10 +21,9 @@ export class AuthResolver {
     const { accessToken } = await this.authService.login(user);
 
     context.res.cookie("accessToken", accessToken, {
-      httpOnly: true,       // Ensure the cookie is only accessible by the web server
-      sameSite: "strict",   // 'strict' is fine, but you might need 'lax' depending on your frontend requests
-      secure: true,         // Ensure the cookie is only sent over HTTPS
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
+      httpOnly: true,        
+      secure: true,       
+      maxAge: 24 * 60 * 60 * 1000, 
     });
 
     return { accessToken };
